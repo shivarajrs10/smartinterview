@@ -4,11 +4,12 @@ Many times, as a recruiter, you'll find both active and passive candidates who f
 
 ## Getting Started
 
-Open smartinterview floder
+Open smartinterview floder:
+```
 Run pip install opencv
 Run pip install -r requirements.txt
 Run python app.py
-
+```
 ### Prerequisites
 
 
