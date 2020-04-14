@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
-import math
+# import math
 
 import threading
 import Matcher
@@ -346,7 +346,7 @@ def Ans():
 
         for key in emo:
             emo_head.append(key)
-            emo_score.append(math.ceil((emo[key]/emo_len)*100))
+            emo_score.append((emo[key]*100)//emo_len)
         emo_result["emo_head"] = emo_head
         emo_result["emo_score"] = emo_score
 

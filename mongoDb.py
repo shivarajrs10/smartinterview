@@ -3,9 +3,9 @@ from pymongo import MongoClient
 
 ############ **** monogo connection ******###############
 
-#  client = MongoClient(
-#     'mongodb+srv://mydb:mydb@cluster0-zzs7j.gcp.mongodb.net/test?retryWrites=true&w=majority')
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient(
+    'mongodb+srv://mydb:mydb@cluster0-zzs7j.gcp.mongodb.net/test?retryWrites=true&w=majority')
+# client = MongoClient("mongodb://localhost:27017/")
 db = client['Candidate-database']
 collection = db['Candidate-collection']
 Question_Db = db['Question_and_ans']
