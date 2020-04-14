@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {%block cand %}
+<div class="container">
+    <!-- Material form login -->
+    <div class="cards">
+
+        <h5 class="card-header info-color white-text text-center py-4">
+            <strong>Welcome {{Name}}</strong>
+        </h5>
+        <br>
+        <!--Card content-->
+        <div class="card-body px-lg-5 pt-0">
+            <div class="card-body px-lg-5 pt-0">
+
+                <form action="/cand_choose" method="post">
+                    <h5><strong>Please Rate Yourself!</strong> </h5>
+                    <br>
+                    <div>
+
+                        <div style="margin-top: 5px;">
+                            {%for i in range(0, length)%}
+                            <div style="margin-bottom: 1px;">
+                                <label for="{{i}}"><b>{{ Header[i]}}</b> </label><br>
+                                <select name="{{i}}">
+                                    <option value="beginner ">Beginner</option>
+                                    <option value="intermediate ">Intermediate</option>
+                                    <option value="advance ">Advance</option>
+                                </select>
+                            </div>
+                            <br> {%endfor%}
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn  btn-warning btn-rounded my-1 waves-effect z-depth-0 " type="submit ">Start
+                        Test</button>
+                </form>
+            </div>
+
+
+        </div>
+        <!-- Material form login -->
+    </div>
+    {% endblock%}

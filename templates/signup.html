@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{%block signup %}
+<div class="container">
+    <!-- Material form login -->
+    <div class="card">
+
+        <h5 class="card-header info-color white-text text-center py-4">
+            <strong>Rquest Access</strong>
+        </h5>
+
+        <!--Card content-->
+        <div class="card-body px-lg-5 pt-0">
+
+            <!-- Form -->
+            <form action="/signup" method="post">
+                <!-- Name -->
+                <div class="md-form">
+                    <label for="materialLoginFormPassword">Name</label>
+                    <input type="text" id="materialLoginFormPassword" class="form-control" name="name"
+                        data-toggle="popover" data-content="Enter your name">
+
+                </div>
+
+                <!-- Email -->
+                <div class="md-form">
+                    <label for="materialLoginFormEmail">E-mail</label>
+                    <input type="email" id="materialLoginFormEmail" class="form-control" name="mail"
+                        data-toggle="popover" data-content="Enter your email id">
+
+                </div>
+
+
+
+
+
+                <!-- Sign in button -->
+                <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
+                    type="submit">Rquest Access</button>
+
+
+
+
+            </form>
+            <!-- Form -->
+            {{wel}}
+        </div>
+
+    </div>
+
+</div>
+{% endblock%}
+</div>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css" />
+  <title>Smart_interviewer</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <style>
+    /* <!-- slide nav bar --> */
+    @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      list-style: none;
+      text-decoration: none;
+      /* font-family: 'Josefin Sans', sans-serif; */
+    }
+
+    body {
+      background-color: #f3f5f9;
+    }
+
+    .wrapper {
+      display: flex;
+      position: relative;
+    }
+
+    .wrapper .sidebar {
+      width: 200px;
+      height: 100%;
+      background: #4b4276;
+      padding: 30px 0px;
+      position: fixed;
+    }
+
+    .wrapper .sidebar h2 {
+      color: #fff;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .wrapper .sidebar ul li {
+      padding: 15px;
+      border-bottom: 1px solid #bdb8d7;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .wrapper .sidebar ul li a {
+      color: #bdb8d7;
+      display: block;
+    }
+
+    .wrapper .sidebar ul li a .fas {
+      width: 25px;
+    }
+
+    .wrapper .sidebar ul li:hover {
+      background-color: #594f8d;
+    }
+
+    .wrapper .sidebar ul li:hover a {
+      color: #fff;
+    }
+
+
+    .wrapper .main_content {
+      width: 100%;
+      margin-left: 200px;
+    }
+
+    .wrapper .main_content .header {
+      padding: 20px;
+      background: #fff;
+      color: #717171;
+      text-align: center;
+      font-size: 30px;
+      color: #0856A4;
+      font-family: arial;
+      font-weight: bold;
+      text-rendering: optimizeLegibility;
+      border-bottom: 1px solid #e0e4e8;
+    }
+
+    .wrapper .main_content .info {
+      margin: 20px;
+      color: #717171;
+      line-height: 25px;
+    }
+
+    .wrapper .main_content .info div {
+      margin-bottom: 5px;
+    }
+
+
+    /*  Table css */
+
+    /* Table css*/
+    #Tabdata {
+      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #Tabdata td,
+    #Tabdata th {
+      border: 1px solid #ddd;
+      padding: 6px;
+    }
+
+    #Tabdata tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    #Tabdata tr:hover {
+      background-color: #ddd;
+    }
+
+    #Tabdata th {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      text-align: left;
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    /* drop down css*/
+    .select-style {
+      padding: 0;
+      margin: 0;
+      border: 1px solid #ccc;
+      width: 140px;
+      border-radius: 3px;
+      overflow: hidden;
+      background-color: #fff;
+
+
+    }
+
+    .select-style select {
+      padding: 5px 8px;
+      width: 130%;
+      border: none;
+      box-shadow: none;
+      background-color: transparent;
+      background-image: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+
+    .select-style select:focus {
+      outline: none;
+    }
+
+    .In {
+      display: inline-block;
+    }
+
+    /* Inline block */
+    #maincontainer {
+      /* margin: 10px; */
+      width: 100%;
+      height: 100%;
+
+
+
+    }
+
+    #leftcolumn {
+      display: inline-block;
+    }
+
+    #contentwrapper {
+      /* margin-right: 15px; */
+      float: right;
+      display: inline-block;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: auto;
+      color: rgb(19, 18, 18);
+      font-family: arial;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-top: 5%;
+      text-rendering: optimizeLegibility;
+
+    }
+
+    /* Email link button*/
+    button {
+      background: red;
+      display: inline-block;
+      padding: 5px;
+      color: #fff;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+
+    span {
+      background: red;
+      display: inline-block;
+      padding: 5px;
+      color: #fff;
+      margin: 5px 0;
+    }
+
+    .available span {
+      background: green;
+      cursor: not-allowed;
+      content: "Sent ";
+    }
+
+    /* Blinking    */
+    .blink_me {
+      animation: blinker 1s linear infinite;
+    }
+
+    @keyframes blinker {
+      45% {
+        opacity: 0;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="sidebar">
+      <h2>Admin </h2>
+      <ul>
+        <li><a href="{{ url_for('admin') }}"><i class="fas fa-home"></i>Home</a></li>
+        <li><a href="{{ url_for('upload') }}"><i class="fas fa-user"></i>Profile</a></li>
+        <li><a href="{{ url_for('dash') }}"><i class="fas fa-address-card"></i>Resume Score</a></li>
+        <li><a href="{{url_for('quiz') }}"><i class="fas fa-address-book"></i>Quiz Score</a></li>
+        <li><a href="{{url_for('helps') }}"><i class="fas fa-blog"></i>Help</a></li>
+
+
+      </ul>
+
+    </div>
+    <div class="main_content">
+      <div class="header">Smart Interviewer 2.0</div>
+      <div class="info">
+        <div id="apps">
+          <div class="jumbotron text-center" v-if="Err">
+            <h1 class="blink_me display-3">Waiting ...</h1>
+            <p class="lead"> There is no request will avaliable
+            </p>
+
+          </div>
+          <div v-else>
+
+
+            <div>
+              <table id="Tabdata">
+                <tr>
+                  <th>Rank</th>
+                  <th>Name</th>
+                  <th>Email</th>
+
+                  <th></th>
+
+                </tr>
+                <tr v-for="(z,index) in filteredDB">
+                  <td>((index +1))</td>
+                  <td>((z.Name))</td>
+                  <td>((z.Email))</td>
+
+                  <td>
+
+                    <div class="available" v-if="z.Uid == isSend">
+                      <span>
+                        mail was sent
+                      </span>
+
+                    </div>
+
+
+                    <button @click.once="z.Uid = isSend;isSend=z.Uid;sendMail(z.Email,z.Name)"
+                      v-show="z.Uid">Send</button>
+
+                  </td>
+                </tr>
+              </table>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <!-- <script src="{{ url_for('static', filename='js/app.js') }}"></script> -->
+      <script>
+        var app = new Vue({
+          el: '#apps',
+          delimiters: ['((', '))'],
+          data: {
+            Database: [],
+
+            available: false,
+            isSend: false,
+            Err: true,
+
+
+
+          },
+          created: function () {
+            this.loadData()
+          },
+          methods: {
+            loadData() {
+              const path = 'http://localhost:8080/request_data';
+              axios.get(path)
+                .then((res) => {
+                  this.Err = false
+                  // console.log(res.data.books);
+                  this.Database = res.data.books;
+                })
+                .catch((error) => {
+                  // eslint-disable-next-line
+                  this.Err = true
+                  console.error(error);
+                });
+            },
+
+            sendMail: function (mail, pass) {
+              // console.log(mail + ' ' + pass);
+
+              const path = 'http://localhost:8080/Mail';
+              let data = JSON.stringify({
+                username: mail,
+                password: pass,
+              });
+
+              axios.post(path, data, {
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              })
+                .then(function (response) {
+                  // console.log(response);
+                })
+                .catch(function (error) {
+                  // console.log(error);
+                });
+            },
+
+          },
+          computed: {
+            filteredDB: function () {
+              return this.Database
+            }
+          },
+
+        })
+      </script>
+
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+      <script>
+        $(document).ready(function () {
+
+        });
+      </script>
+</body>
+
+</html>

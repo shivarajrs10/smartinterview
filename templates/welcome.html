@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+
+<div class="container">
+    {%block dash %}
+    <div class="phase1">
+        <div class="container">
+            <div class="card bg-light mb-3" style="max-width: 20rem;">
+                <div class="card-header">Data Fetch</div>
+                <div class="card-body">
+
+                    <p class="card-text">
+                        <form action="/dash" method="post">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Specialization</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="Default"
+                                    aria-describedby="inputGroup-sizing-default" name="header">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="number">No of candidate</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="Default" aria-describedby="number"
+                                    name="no">
+                            </div>
+
+
+
+                            <div class="phase2">
+                                <input class="btn btn-primary" onclick='result(0)' type="submit" value="Submit">
+                            </div>
+                            {% if fail %}
+                            <div class="alert alert-danger" role="alert" style="margin-top: 5px;">
+                                {{fail}}
+                            </div>
+                            {% endif %}
+                        </form>
+                    </p>
+                    <progress id="progress" value="0" max="100"
+                        style="width:280px; margin-top: 10px; display:none;"></progress>
+                    <span id="status"></span>
+                    <p style="font-size:large;" class="blinking text-primary" id="finalMessage"></p>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock%}
+</div>
+
+
+<!-- For loop logic of jinja template -->
+{%block result %}
+<div class="tablecontainer">
+    <table id="listCond">
+
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Email</th>
+
+            {%for i in range(0, Headlen)%}
+            <th>{{Headerlist[i]}}</th>
+            {%endfor%}
+            <th>Total score</th>
+            <th></th>
+
+        </tr>
+        {%for i in range(0, len)%}
+        <tr>
+            <td>{{i+1}}</td>
+            <td>{{Pokemons[i]['Name']}}</td>
+            <td>{{Pokemons[i]['Email']}}</td>
+            {%for j in range(0, Headlen)%}
+            <td>{{Pokemons[i]['headerlistscore'][j]}}%</td>
+            {%endfor%}
+            <td>{{Pokemons[i]['Total']}}%</td>
+
+            <td><a href="{{ url_for('database_download', filename=file_name[i]) }}" class="btn btn-primary">Download</a>
+            </td>
+        </tr>
+
+        {%endfor%}
+    </table>
+</div>
+<div style="margin-top:10px;">
+    .
+</div>
+{%endblock%}

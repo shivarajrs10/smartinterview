@@ -1,0 +1,100 @@
+/* background images */
+
+
+body, html {
+    height: 100%;
+    margin: 0;
+}
+.bg {
+  /* The image used */
+   background-image: url("/static/img/Complete.jpg");
+
+  /* Full height */
+  height: 90%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.home{
+  /* The image used */
+   background-image: url("/static/img/AI_HR.png");
+
+  /* Full height */
+  height: 90%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+    
+
+   
+  
+
+.phase1 {
+    margin-top: 50px;
+}
+
+
+
+.card {
+    margin-top: 5em;
+    margin-left: 5em;
+    float: left;
+}
+
+/* Table list */
+.tablecontainer {
+    margin-top: 10px;
+}
+
+#listCond {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#listCond td,
+#listCond th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#listCond tr {
+    background-color:white;
+}
+
+#listCond tr:hover {
+    background-color: #ddd;
+}
+
+#listCond th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+/* blinkin text */
+.blinking {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+
+
+
+/* Slide navi bar */
+
+
+
+

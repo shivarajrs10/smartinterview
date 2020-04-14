@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css" />
+    <title>Smart_interviewer</title>
+
+    <style>
+        .blinking {
+            animation: blinker 2s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        h2 {
+            text-align: center;
+            font-size: auto;
+            color: rgb(19, 18, 18);
+            font-family: arial;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 5%;
+            text-rendering: optimizeLegibility;
+
+        }
+
+        .button {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 10px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .button2 {
+            background-color: #008CBA;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <a class="navbar-brand" href="#">Collins Aerospace</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item is-active">
+                    <a class="nav-link is-active" href="{{ url_for('screen') }}">Home <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link is-active" href="{{ url_for('signin') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link is-active" href="{{ url_for('helps') }}">Help</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+            </ul>
+
+        </div>
+    </nav><br>
+    <h2 style="margin-top: 70px;" class="text-warning">Welcome to Smart interviewer <b>2.0</b></h2>
+
+
+    <!--Help text -->
+    <div style="margin-left: 50px;">
+        <h3><strong> <u> Instructions</u></strong>
+        </h3>
+        <p>1. Please make sure that you have received both template files in csv format from hiring manager.<br>2.
+            Please
+            prepare the resume in docx, txt and pdf format only. The name of the file should be same as candidate's
+            name.
+            <br>3.
+            Click on <strong>Log in</strong> tab and use your credentials to login.<br>
+            4. Once you are signed in <strong> Profile</strong> page will open by default. In that page you are required
+            to
+            upload the following: <strong><br> -Candidates Resume <br> -KeyWord Template </strong> (Containing keywords
+            in csv
+            format)
+            <br> <strong> -Q & A Template</strong> (Containing Question and Answers in csv format) <br>5. Click on
+            Submit and
+            wait
+            till
+            <strong>“Successfully uploaded Please click on Resume score”</strong> message appears.<br>6. Click on
+            <strong>"Resume Score” </strong>tab, and under dropdown
+            menu <strong>"Select header" </strong>select appropriate option if you have any preference or select "all".
+            <br>7.
+            Under the dropdown option of <strong> "Select no of candidate" </strong>please select number of candidates
+            you
+            want
+            to shortlist
+            for online test. <br>8. The score in the tabular format will be displayed for your reference. <br>9. You can
+            send
+            the automatic invitation email to candidate by clicking on the "send" button which includes instructions,
+            login
+            credentials, test
+            links, do's and dont's. <br>10. When the candidate completes the online test the result will be recorded and
+            shown in
+            the <strong>“Quiz Score” </strong>page. Reject / Select the candidate for next round
+        </p>
+
+        <a href="static/Docs/sample_keyword_template.csv" class="button" download>Sample Keyword Template</a>
+        <a href="static/Docs/sample_Q_A_template.csv" class="button button2" download>Sample Q & A Template</a>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('li.active').removeClass('active');
+            $('a[href="' + location.pathname + '"]').closest('li').addClass('active');
+        });
+    </script>
+
+</body>
+
+
+</html>

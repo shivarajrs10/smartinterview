@@ -1,0 +1,11 @@
+Statistical Skills,Python Language,Machine Learning,,,,
+Regression,pandas,clustering,,,,
+Time series analysis,numpy,classification,,,,Please note: You can also use one keyword in more than one key skills if required.
+probability,scipy,natural language processing,,,,
+distribution,django,lda,,,,
+poisson distribution,scikitlearn,ner,,,,
+bayesian inference,nltk,pos,,,,
+forecasting,spacy,xgboost,,,,
+markov chain,flask,svm,,,,
+monte carlo,,naiyes bayes,,,,
+,,ensemble models,,,,

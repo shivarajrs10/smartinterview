@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{%block signin %}
+<div class="container">
+  <!-- Material form login -->
+  <div class="card">
+
+    <h5 class="card-header info-color white-text text-center py-4">
+      <strong>Sign in</strong>
+    </h5>
+
+    <!--Card content-->
+    <div class="card-body px-lg-5 pt-0">
+
+      <!-- Form -->
+      <form action="/Login" method="post">
+
+        <!-- Email -->
+        <div class="md-form">
+          <label for="materialLoginFormEmail">E-mail</label>
+          <input type="email" id="materialLoginFormEmail" class="form-control" name="name" data-toggle="popover"
+            data-content="Enter your email id">
+
+        </div>
+
+        <!-- Password -->
+        <div class="md-form">
+          <label for="materialLoginFormPassword">Password</label>
+          <input type="password" id="materialLoginFormPassword" class="form-control" name="psw" data-toggle="popover"
+            data-content="Enter your password">
+
+        </div>
+
+        <div class="d-flex justify-content-around">
+
+        </div>
+
+        <!-- Sign in button -->
+        <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Sign
+          in</button>
+
+
+
+
+      </form>
+      <!-- Form -->
+      {% if wel %}
+      <div class="alert alert-danger" role="alert" style="margin-top: 5px;">
+        {{wel}}
+      </div>
+      {% endif %}
+
+      {% if suc %}
+      <div class="alert alert-success" role="alert" style="margin-top: 5px;">
+        {{suc}}
+      </div>
+      {% endif %}
+
+
+    </div>
+
+  </div>
+  <!-- Material form login -->
+</div>
+{% endblock%}
+</div>

@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css" />
+  <title>Smart_interviewer</title>
+
+  <script defer src="https://docs.opencv.org/master/opencv.js"></script>
+  <script src="https://vuejs.org/js/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <style>
+    span {
+      background: red;
+      display: inline-block;
+      padding: 5px;
+      color: #fff;
+      margin: 5px 0;
+    }
+
+    .available span {
+      background: green;
+    }
+
+    .page-wrap {
+      min-height: 100vh;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: auto;
+      color: rgb(19, 18, 18);
+      font-family: arial;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-top: 5%;
+      text-rendering: optimizeLegibility;
+
+    }
+
+    /*  Quiz CSS*/
+    #abc {
+      text-align: left;
+      margin-left: 5px;
+    }
+
+    #def {
+      text-align: left;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    /* #page-wrap {
+      width: 500px;
+      margin: 0 auto;
+    } */
+
+    #quiz input {
+      vertical-align: middle;
+    }
+
+    #quiz h3 {
+      font-size: 20px;
+      margin: 0 0 1px 0;
+      color: #666;
+    }
+
+    .div1 {
+      margin: 0 auto;
+    }
+
+    .div2 {
+      margin: 0 auto;
+    }
+
+    .div3 {
+      padding: 4px 0;
+
+    }
+
+    .full_button {
+      background-color: #4b4276;
+
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      float: right;
+      cursor: pointer;
+    }
+
+    .Timer {
+      background-color: #4CAF50;
+      /* Green */
+      border: none;
+      text-align: center;
+      font-size: auto;
+      font-family: arial;
+      font-weight: bold;
+      padding: 15px 32px;
+      text-decoration: none;
+      display: inline-block;
+      color: white;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    /* video Capture display*/
+    #videoElement {
+      display: none;
+    }
+
+    #photoTaken {
+      display: none;
+    }
+  </style>
+
+</head>
+
+<body oncontextmenu="return false">
+
+  <h2 class="text-warning">Welcome to Smart interviewer </h2>
+
+  <div class="container-fluid bg-2 text-center">
+
+    <div id="ques">
+
+      <div class="page-wrap d-flex flex-row " style="margin-top:10% ;" v-if="!Err">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+              <!-- <span class="display-1 d-block">404</span> -->
+              <div class="lead">The page you are looking for was not found.<br> Please login again</div>
+              <a href="{{ url_for('signin') }}" class="btn btn-link">Back to Home</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="jumbotron text-center" style="margin-top:70px ;" v-else-if="Suc">
+        <h1 class="display-3">Thank You!</h1>
+        <p class="lead">Your responses have been submitted successfully for review. We will update for further round of
+          interview if you qualify in this test.
+        </p>
+
+      </div>
+      <div v-else>
+        <video id="videoElement" ref="camera" :width="500" :height="370" autoplay></video>
+        <canvas id="photoTaken" ref="canvas" :width="500" :height="370"></canvas>
+        <div class="container">
+          <div class="card-header">
+            <div class="Timer">
+              ((minute)) : ((seconds))
+            </div>
+            <div class="full_button" v-on:click.once="toggleFullScreen();">Go full screen
+            </div>
+
+          </div>
+
+          <div style="margin-top:30px">
+            <div class="card">
+              <div id="page-wrap">
+                <div id="quiz">
+                  <div class="div1">
+                    <div class="div2">
+                      <div id="abc" v-for="(z,index) in filteredDB">
+                        <h3> Q((index+1)) ) ((z.Question))</h3>
+                        <div id="def" v-for="opt in z.Options">
+                          <div class="div3">
+                            <input type="radio" :id="z.Uid+index" :value="opt" v-model="anshwer[z.Level+'$'+z.Qid]">
+                            <label :for="z.Uid+index">
+                              ((opt))
+                            </label>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+              <div v-on:click.once="available = !available;Result();sendData();" v-bind:class="{available:available}">
+                <span>Submit</span>
+              </div>
+              <!-- ((anshwer)) -->
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#ques',
+      delimiters: ['((', '))'],
+      data: {
+        Que_database: [],
+        query_data: [],
+        anshwer: {},
+        levels: [],
+        filter_Data: [],
+        available: false,
+        Err: true,
+        Suc: false,
+        Total: 0,
+        indvi_score_dic: {},
+        videoID: 0,
+        captures: [],
+        minute: 0,
+        seconds: 0,
+        time_len: 0,
+        count: 0,
+        countDown_ID: 0,
+        timeout_ID: 0,
+        not_fun_id: 0,
+
+      },
+      created: function () {
+        this.loadData()
+      },
+      methods: {
+        loadData() {
+          const path = 'http://localhost:8080/que_data';
+          axios.get(path)
+            .then((res) => {
+              this.Que_database = res.data.questions[0];
+              this.levels = this.Que_database['Selected'];
+
+              // console.log(this.Que_database);
+              this.time_len = this.levels.length * 10
+              // console.log(this.levels.length);
+
+              setTimeout(this.countDown(), 5000)
+              this.get_key_level()
+              this.opencvIsReady()
+
+            })
+            .catch((error) => {
+              this.Err = false
+              console.error(error);
+            });
+        },
+        get_key_level() {
+
+          for (let j = 0; j < this.levels.length; j++) {
+            val = this.levels[j];
+            this.retrive(val)
+          }
+
+        },
+        retrive(head_level) {
+          level = head_level.split("_");
+          if (level[1].trim() == 'beginner') {
+            lev = 'beginner'
+            len = 10
+
+            this.filter_Questions(this.Que_database[level[0].toUpperCase()], lev, len)
+          } else if (level[1].trim() == 'intermediate') {
+            lev = 'beginner'
+            len = 5
+            this.filter_Questions(this.Que_database[level[0].toUpperCase()], lev, len)
+            lev = 'intermediate'
+            len = 5
+            this.filter_Questions(this.Que_database[level[0].toUpperCase()], lev, len)
+          } else {
+            lev = 'beginner'
+            len = 2
+            this.filter_Questions(this.Que_database[level[0].toUpperCase()], lev, len)
+            lev = 'intermediate'
+            len = 3
+            this.filter_Questions(this.Que_database[level[0].toUpperCase()], lev, len)
+            lev = 'advance'
+            len = 5
+            this.filter_Questions(this.Que_database[level[0].toUpperCase()], lev, len)
+          }
+
+        },
+        filter_Questions(arr, level, len) {
+
+          temp = []
+
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i]["Level"] == level) {
+              temp.push(arr[i])
+
+            }
+
+          }
+
+          temp = this.shuffle(temp)
+          for (let z = 0; z < len; z++) {
+            if (temp[z] == undefined) {
+              continue
+            }
+
+            this.query_data.push(temp[z])
+          }
+
+        },
+        shuffle(o) {
+          for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+          return o;
+        },
+        Result() {
+          header = this.Que_database['Header']
+          header = header.map(a => a.toUpperCase())
+
+          // this.indvi_score_dic = {}
+          for (p in this.anshwer) {
+            ans = []
+            ans.push(p)
+            ans.push(this.anshwer[p])
+            val = ans[0].split("$")
+
+            if (val[0] === 'beginner') {
+              head = val[1].slice(0, -4).toUpperCase()
+              res = this.score(val, ans)
+
+              if (res == true) {
+                if (header.indexOf(head) !== -1) {
+                  this.indvi_score_dic[head] = (this.indvi_score_dic[head] || 0) + 1
+
+                } else {
+
+                  alert("Value does not exists!")
+
+                }
+
+                this.Total += 1
+              } else {
+
+                if (header.indexOf(head) !== -1) {
+                  this.indvi_score_dic[head] = (this.indvi_score_dic[head] || 0) + 0
+                }
+              }
+
+
+
+            } else if (val[0] === 'intermediate') {
+              head = val[1].slice(0, -4).toUpperCase()
+              res = this.score(val, ans)
+
+              if (res == true) {
+                if (header.indexOf(head) !== -1) {
+                  this.indvi_score_dic[head] = (this.indvi_score_dic[head] || 0) + 2
+
+                } else {
+
+                  alert("Value does not exists!")
+
+                }
+
+                this.Total += 2
+              } else {
+                if (header.indexOf(head) !== -1) {
+                  this.indvi_score_dic[head] = (this.indvi_score_dic[head] || 0) + 0
+                }
+              }
+
+
+            } else {
+              // console.log("Adv");
+
+              head = val[1].slice(0, -4).toUpperCase()
+              res = this.score(val, ans)
+
+              if (res == true) {
+                if (header.indexOf(head) !== -1) {
+                  this.indvi_score_dic[head] = (this.indvi_score_dic[head] || 0) + 3
+
+                } else {
+                  alert("Value does not exists!")
+                }
+
+                this.Total += 3
+              } else {
+                if (header.indexOf(head) !== -1) {
+                  this.indvi_score_dic[head] = (this.indvi_score_dic[head] || 0) + 0
+                }
+              }
+
+
+            }
+
+          }
+          header_list = []
+          header_list_score = []
+          // console.log('score');
+          for (h in header) {
+            temp = header[h]
+            header_list.push(temp)
+            if (this.indvi_score_dic[temp] == undefined) header_list_score.push(0)
+            else header_list_score.push(this.indvi_score_dic[temp])
+          }
+
+          this.indvi_score_dic["Name"] = this.Que_database["Name"]
+          this.indvi_score_dic["Email"] = this.Que_database["Email"]
+          this.indvi_score_dic["Total"] = this.Total
+          this.indvi_score_dic["Header_list"] = header_list
+          this.indvi_score_dic["Header_list_score"] = header_list_score
+          // this.indvi_score.push(this.indvi_score_dic)
+        },
+        score(val, ans) {
+          for (let i = 0; i < this.query_data.length; i++) {
+            if (this.query_data[i]["Level"] == val[0] && this.query_data[i]["Qid"] == val[1] && this.query_data[i]["Anshwer"] == ans[1]) {
+              return true
+            }
+          }
+        },
+        //  video capture functions...
+
+        createCameraElement() {
+          this.isLoading = true;
+
+          const constraints = (window.constraints = {
+            audio: false,
+            video: true
+          });
+
+          let video = this.$refs.camera
+          navigator.mediaDevices
+            .getUserMedia(constraints)
+            .then(stream => {
+              this.isLoading = false;
+              video.srcObject = stream;
+            })
+            .catch(error => {
+              this.isLoading = false;
+              alert("May the browser didn't support or there is some errors.");
+            });
+
+
+
+          let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
+          let dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);
+          let cap = new cv.VideoCapture(video);
+
+          const FPS = 60;
+
+          this.videoID = setInterval(() => {
+            cap.read(src);
+
+            var type = "image/jpeg"
+            cv.imshow("photoTaken", src);
+            var canvas = document.getElementById("photoTaken")
+            data = canvas.toDataURL(type)
+
+
+            // console.log(canvas.toDataURL(type));
+            data = data.replace('data:' + type + ';base64,', ''); //split off junk at the beginning
+            // var data = document.getElementById("canvasOutput").toDataURL(type);
+            this.captures.push(data)
+          }, 10000 / FPS);
+        },
+        opencvIsReady() {
+          cv['onRuntimeInitialized'] = () => {
+            console.log('OpenCV.js is ready');
+            this.createCameraElement()
+          };
+        },
+
+
+        stopCameraStream() {
+          clearTimeout(this.videoID)
+          let tracks = this.$refs.camera.srcObject.getTracks();
+
+          tracks.forEach(track => {
+            track.stop();
+          });
+
+
+
+        },
+
+        // video capture functions end
+        sendData: function () {
+          this.exit_Screen()
+          this.stopCameraStream()
+
+          this.Suc = true
+          const path = 'http://localhost:8080/Quez_Ans';
+          let data = JSON.stringify({
+            Result: this.indvi_score_dic,
+            Captures: this.captures
+          });
+          // console.log(data);
+
+          axios.post(path, data, {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          })
+            .then((response) => {
+              if (response.status == 200) this.Suc = true
+
+            })
+            .catch((error) => {
+              this.Suc = true
+              console.log(error);
+            });
+        },
+        countDown() {
+          console.log("coundown");
+
+          this.minute = this.time_len - 1
+          this.seconds = 59
+          // this.time_len = this.time_len * (1000 * 60)
+          // console.log("Time check");
+          // console.log(this.time_len);
+          this.count = this.time_len * 60
+          // console.log(this.count);
+          this.countDown_ID = setInterval(this.Timer, 1000)
+
+
+
+        },
+        Timer() {
+          this.seconds--;
+          this.count--
+          if (this.count == 0) {
+            console.log("time out");
+            this.Result()
+            this.sendData()
+            this.Reset_Timer(this.countDown_ID)
+          }
+
+          if (this.seconds < 0) {
+            this.seconds = 59
+            this.minute -= 1
+          }
+
+
+
+        },
+        Reset_Timer(ID) {
+          clearTimeout(ID)
+        },
+
+        toggleFullScreen() {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+
+          }
+        },
+        not_full_Screen() {
+          this.timeout_ID = setTimeout(this.not_full_fun_exeution, 30000)
+        },
+
+        not_full_fun_exeution() {
+          this.not_fun_id = setInterval(this.not_full_screen_check, 1000)
+        },
+        not_full_screen_check() {
+          console.log("full screen check");
+
+          if (!document.fullscreenElement) {
+            console.log("not full screen");
+            this.Result()
+            this.sendData()
+            this.Reset_Timer(this.countDown_ID)
+            this.Reset_Timer(this.timeout_ID)
+            this.Reset_Timer(this.not_fun_id)
+
+          }
+        },
+        exit_Screen() {
+          if (document.exitFullscreen) {
+            this.Reset_Timer(this.not_fun_id)
+            document.exitFullscreen();
+          }
+        }
+
+      },
+      computed: {
+        filteredDB: function () {
+          return this.shuffle(this.query_data)
+        },
+
+      },
+
+      mounted() {
+
+        this.not_full_Screen()
+        window.addEventListener("keydown", e => {
+
+          this.Result(),
+            this.sendData(),
+            this.Reset_Timer(this.timeout_ID),
+            this.Reset_Timer(this.countDown_ID)
+        })
+
+      },
+
+
+    })
+  </script>
+
+
+
+
+  <!-- Opencv video capture function -->
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+<!-- this is new  -->
