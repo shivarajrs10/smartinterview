@@ -2,6 +2,19 @@ import os
 import shutil
 
 
+def create_dir():
+    dir_path = os.getcwd() + '/storage'
+
+    try:
+        os.mkdir(dir_path)
+        print(dir_path)
+    except OSError as error:
+        pass
+
+
+create_dir()
+
+
 def Delete_files():
     folder = 'storage'
     for filename in os.listdir(folder):

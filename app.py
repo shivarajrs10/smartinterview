@@ -89,6 +89,7 @@ def C_helps():
 def upload():
 
     if request.method == 'POST':
+        filedelet.create_dir()
         data = []
         csvFile = request.files['csv']
         csv_ext = str(csvFile).split("'")
