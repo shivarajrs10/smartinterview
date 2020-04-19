@@ -17,7 +17,7 @@ import mail
 import filedelet
 import image_process
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 
 '''   File Storage Handling    '''
@@ -27,9 +27,10 @@ ALLOWED_EXTENSIONS = {'pdf', 'csv', 'txt', 'docx'}
 
 
 app.config['UPLOAD_FOLDER'] = mypath + "/storage"
-app.config["CLIENT_PDF"] = mypath + "/storage"
+# app.config["CLIENT_PDF"] = mypath + "/storage"
 # app.config["CLIENT_IMAGES"] = mypath + "/storage"
 app.config["TEMPLATE"] = mypath + "/static/Docs"
+app.config["IMAGES"] = mypath + "\static\img"
 
 
 def allowed_file(filename):
@@ -164,7 +165,8 @@ def upload():
         Success = "Success"
         filedelet.Delete_files()
         return render_template('upload.html', suc=Success)
-
+    # logo_path = os.path.join(app.config['IMAGES'], "CA-Logo.svg")
+    # print(logo_path)
     return render_template('upload.html')
 
 

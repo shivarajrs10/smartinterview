@@ -62,13 +62,21 @@
       display: block;
     }
 
+    .activee {
+      color: #f5f5f5;
+
+
+    }
+
     .wrapper .sidebar ul li a .fas {
       width: 25px;
+
     }
 
     .wrapper .sidebar ul li:hover {
       background-color: #594f8d;
     }
+
 
     .wrapper .sidebar ul li:hover a {
       color: #fff;
@@ -234,6 +242,10 @@
         opacity: 0;
       }
     }
+
+    /* .active {
+      background-color: #594f8d;
+    } */
   </style>
 
 </head>
@@ -241,11 +253,13 @@
 <body>
   <div class="wrapper">
     <div class="sidebar">
-      <h2>Resume Score</h2>
+      <!-- <h2>Resume Score</h2> -->
       <ul>
 
         <li><a href="{{ url_for('upload') }}"><i class="fas fa-user"></i>Profile</a></li>
-        <li><a href="{{ url_for('dash') }}"><i class="fas fa-address-card"></i>Resume Score</a></li>
+        <li><a href="{{ url_for('dash') }}">
+            <div class="activee"><i class="fas fa-address-card "> </i>Resume Score</div>
+          </a></li>
         <li><a href="{{url_for('quiz') }}"><i class="fas fa-address-book"></i>Quiz Score</a></li>
         <!-- <li><a href="{{url_for('helps') }}"><i class="fas fa-blog"></i>Help</a></li> -->
         <li><a href="{{ url_for('screen') }}"><i class="fas fa-home"></i>Log Out</a></li>
@@ -502,9 +516,7 @@
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
       <script>
-        $(document).ready(function () {
 
-        });
       </script>
 </body>
 

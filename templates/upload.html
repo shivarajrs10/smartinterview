@@ -41,7 +41,7 @@
     .wrapper .sidebar h2 {
       color: #fff;
       text-transform: uppercase;
-      /* margin-left: 20px; */
+      margin-left: 20px;
       margin-bottom: 20px;
     }
 
@@ -117,6 +117,19 @@
     .bs-example {
       margin: 150px 50px;
     }
+
+    .bg-logo {
+      background-image: url("/static/img/favicon.ico");
+      width: 30%;
+
+
+    }
+
+    .activee {
+      color: #f5f5f5;
+
+
+    }
   </style>
 
 </head>
@@ -124,12 +137,14 @@
 <body>
   <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 
-  <div class="wrapper">
+  <div class="wrapper" id="activeId">
     <div class="sidebar">
-      <h2>Profile</h2>
+
       <ul>
 
-        <li><a href="{{ url_for('upload') }}"><i class="fas fa-user"></i>Profile</a></li>
+        <li><a href="{{ url_for('dash') }}">
+            <div class="activee"><i class="fas fa-address-card "> </i>Profile</div>
+          </a></li>
         <li><a href="{{ url_for('dash') }}"><i class="fas fa-address-card"></i>Resume Score</a></li>
         <li><a href="{{url_for('quiz') }}"><i class="fas fa-address-book"></i>Quiz Score</a></li>
         <!-- <li><a href="{{ url_for('helps') }}"><i class="fas fa-blog"></i>Help</a></li> -->
@@ -239,6 +254,7 @@
           placement: 'right',
           trigger: 'hover'
         });
+
       });
     </script>
     <script>
@@ -303,6 +319,7 @@
 
       }
     </script>
+
 </body>
 
 </html>

@@ -207,6 +207,12 @@
         opacity: 0;
       }
     }
+
+    .activee {
+      color: #f5f5f5;
+
+
+    }
   </style>
 
 </head>
@@ -216,12 +222,14 @@
 
   <div class="wrapper">
     <div class="sidebar">
-      <h2>Quiz Score</h2>
+      <!-- <h2>Quiz Score</h2> -->
       <ul>
 
         <li><a href="{{ url_for('upload') }}"><i class="fas fa-user"></i>Profile</a></li>
         <li><a href="{{ url_for('dash') }}"><i class="fas fa-address-card"></i>Resume Score</a></li>
-        <li><a href="{{url_for('quiz') }}"><i class="fas fa-address-book"></i>Quiz Score</a></li>
+        <li><a href="{{ url_for('dash') }}">
+            <div class="activee"><i class="fas fa-address-card "> </i>Quiz Score</div>
+          </a></li>
 
         <!-- <li><a href="{{url_for('helps') }}"><i class="fas fa-blog"></i>Help</a></li> -->
         <li><a href="{{ url_for('screen') }}"><i class="fas fa-home"></i>Log Out</a></li>
