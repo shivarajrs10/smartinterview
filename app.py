@@ -94,7 +94,7 @@ def upload():
         data = []
         csvFile = request.files['csv']
         csv_ext = str(csvFile).split("'")
-
+        test_name = request.form['testname']
         if ".csv" in csv_ext[1]:
             if csvFile and allowed_file(csvFile.filename):
                 csvname = secure_filename(csvFile.filename)
@@ -118,7 +118,7 @@ def upload():
                 que_path = mypath + '/storage/' + quename
 
                 Data = []
-                Data.append(Questions.question_extract(que_path))
+                Data.append(Questions.question_extract(que_path, test_name))
                 mongoDb.questions_store(Data)
         else:
             fail = '''Please upload only CSV file.'''
@@ -134,7 +134,8 @@ def upload():
                     pdf_path = mypath + '/storage/' + filename
                     name, mail, result = Matcher.create_database(
                         pdf_path, filename)
-                    data.append(Matcher.header_Cal(name, mail, result))
+                    data.append(Matcher.header_Cal(
+                        name, mail, result, test_name))
 
             elif ".docx" in pdf_ext[1]:
                 if f and allowed_file(f.filename):
@@ -144,7 +145,8 @@ def upload():
                     pdf_path = mypath + '/storage/' + filename
                     name, mail, result = Matcher.create_database(
                         pdf_path, filename)
-                    data.append(Matcher.header_Cal(name, mail, result))
+                    data.append(Matcher.header_Cal(
+                        name, mail, result, test_name))
 
             elif ".txt" in pdf_ext[1]:
                 if f and allowed_file(f.filename):
@@ -154,12 +156,13 @@ def upload():
                     pdf_path = mypath + '/storage/' + filename
                     name, mail, result = Matcher.create_database(
                         pdf_path, filename)
-                    data.append(Matcher.header_Cal(name, mail, result))
+                    data.append(Matcher.header_Cal(
+                        name, mail, result, test_name))
 
             else:
                 fail = '''upload only pdf,docx and txt files'''
                 return render_template('upload.html', fail=fail)
-                break
+
         # print("-----------")
         mongoDb.collection_store(data)
         Success = "Success"
@@ -227,6 +230,8 @@ def request_data():
 
 
 ''' Mail send function '''
+
+
 @app.route("/Mail", methods=['GET', 'POST'])
 def sendMail():
     if request.method == 'POST':
@@ -245,6 +250,8 @@ def sendMail():
 ''' Users sign in  & sign up '''
 global res
 res = []
+
+
 @app.route("/Login", methods=['GET', 'POST'])
 def signin():
 
@@ -304,6 +311,8 @@ def signup():
 
 global option
 option = []
+
+
 @app.route("/cand_choose", methods=['POST'])
 def Choose():
 

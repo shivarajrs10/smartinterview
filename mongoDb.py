@@ -28,15 +28,7 @@ def collection_store(data):
 
 
 def questions_store(data):
-
-    count = Question_Db.count_documents({})
-
-    if count > 0:
-        x = Question_Db.delete_many({})
-        # print(x.deleted_count, " documents deleted.")
-        db = Question_Db.insert_many(data)
-    else:
-        db = Question_Db.insert_many(data)
+    db = Question_Db.insert_many(data)
 
 
 def request_Store(data):

@@ -169,12 +169,12 @@ def create_database(file, name):
     return cand_name, e_mail_ID, result_dic
 
 
-def header_Cal(C_name, C_mail, match_keywords):
+def header_Cal(C_name, C_mail, match_keywords, test_name):
 
     # used to store the keyword score
     final_score_result = {}
-    count = 0
-    count_score = 0
+    # count = 0
+    # count_score = 0
     result = []
     Keys = {}
     header = []
@@ -216,6 +216,7 @@ def header_Cal(C_name, C_mail, match_keywords):
     # print(round((match_key_len/word_dic_size)*100, 2))
     final_score_result["Name"] = C_name
     final_score_result["Email"] = C_mail
+    final_score_result['Test_Name'] = test_name
     final_score_result["Password"] = C_name + str(random.randint(1000, 9999))
     final_score_result["Uid"] = random.randint(1000, 9999)
     # final_score_result["Header"] = header

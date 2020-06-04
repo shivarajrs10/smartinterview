@@ -163,57 +163,66 @@
             <div class="card-body">
 
               <p class="card-text">
-                <form action="/upload" method="post" enctype="multipart/form-data">
+              <form action="/upload" method="post" enctype="multipart/form-data">
 
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                    </div>
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="inputGroupFile" name='file[]'
-                        aria-describedby="inputGroupFileAddon" data-toggle="popover" title="Resume"
-                        data-content="upload only pdf,docx and txt files." onchange="pdffilename(this.value);"
-                        value="select" multiple>
-                      <label class="custom-file-label" for="inputGroupFile">Resume</label>
-                    </div>
-
-
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                   </div>
-                  <div id="disabledInput" style="display: none;"></div>
-
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                    </div>
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="inputGroupFile01" name='csv'
-                        aria-describedby="inputGroupFileAddon01" data-toggle="popover" title="Template"
-                        data-content="upload only Template file." onchange="csvfilename(this.value);" value="select">
-                      <label class="custom-file-label" for="inputGroupFile01">Template(.csv)</label>
-                    </div>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile" name='file[]'
+                      aria-describedby="inputGroupFileAddon" data-toggle="popover" title="Resume"
+                      data-content="upload only pdf,docx and txt files." onchange="pdffilename(this.value);"
+                      value="select" multiple>
+                    <label class="custom-file-label" for="inputGroupFile">Resume</label>
                   </div>
 
-                  <div id="disabledInput01" style="display: none; "></div>
 
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
-                    </div>
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="inputGroupFile02" name='que'
-                        aria-describedby="inputGroupFileAddon02" data-toggle="popover" title="Q&A File"
-                        data-content="upload only Q & A file." onchange="quefilename(this.value);" value="select">
-                      <label class="custom-file-label" for="inputGroupFile01">Q & A(.csv)</label>
-                    </div>
+                </div>
+                <div id="disabledInput" style="display: none;"></div>
+
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                   </div>
-
-                  <div id="disabledInput02" style="display: none;"></div>
-
-                  <div>
-                    <input class="btn btn-primary" onclick='start(0)' type="submit" value="Submit">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile01" name='csv'
+                      aria-describedby="inputGroupFileAddon01" data-toggle="popover" title="Template"
+                      data-content="upload only Template file." onchange="csvfilename(this.value);" value="select">
+                    <label class="custom-file-label" for="inputGroupFile01">Template(.csv)</label>
                   </div>
+                </div>
 
-                </form>
+                <div id="disabledInput01" style="display: none; "></div>
+
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
+                  </div>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile02" name='que'
+                      aria-describedby="inputGroupFileAddon02" data-toggle="popover" title="Q&A File"
+                      data-content="upload only Q & A file." onchange="quefilename(this.value);" value="select">
+                    <label class="custom-file-label" for="inputGroupFile01">Q & A(.csv)</label>
+                  </div>
+                </div>
+
+                <div id="disabledInput02" style="display: none;"></div>
+                <!-- test name -->
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Test Name</span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Default" name="testname"
+                    aria-describedby="inputGroup-sizing-default" data-toggle="popover" title="Test name"
+                    data-content="Enter test name">
+                </div>
+                <!-- test name end -->
+                <div>
+                  <input class="btn btn-primary" onclick='start(0)' type="submit" value="Submit">
+                </div>
+
+              </form>
               </p>
               <progress id="progressBar" value="0" max="100"
                 style="width:280px; margin-top: 10px; display:none;"></progress>

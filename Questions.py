@@ -13,7 +13,7 @@ def headers(file):
     return header_list
 
 
-def question_extract(path):
+def question_extract(path, test_name):
     header_list = headers(path)
     df = pd.read_csv(path)
     count = 7
@@ -62,6 +62,7 @@ def question_extract(path):
             else:
                 break
         database[header_list[j].upper()] = all_que
+        database["TestName"] = test_name
         all_que = []
         count = 7
 
